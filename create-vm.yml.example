@@ -1,0 +1,71 @@
+---
+- name: Create VM on Proxmox
+  hosts: proxmox
+  gather_facts: false
+
+  vars:
+    # Proxmox connection settings
+    pve_host: "YOUR_IP_HERE"
+    pve_user: "YOUR_ANSIBLE_USER_HERE"
+    pve_password: "YOUR_PASSWORD_HERE"
+    pve_node: "YOUR_ANSIBLE_HOST_NAME_HERE"
+
+    # VM configuration
+    vm_id: "YOUR_VM_ID_HERE"
+    vm_name: "test-vm"
+    vm_memory: 2048
+    vm_cores: 2
+    vm_disk_size: 32
+    vm_network_bridge: "vmbr0"
+    vm_storage: "local-zfs"
+
+    # ISO configuration
+    #vm_iso_storage: "local"
+    #vm_iso_file: "ubuntu-24.04.2-live-server-amd64.iso"
+
+  tasks:
+    - name: Create new VM with basic settings
+      community.general.proxmox_kvm:
+        api_host: "{{ pve_host }}"
+        api_user: "{{ pve_user }}"
+        api_password: "{{ pve_password }}"
+        validate_certs: false
+
+        vmid: "{{ vm_id }}"
+        name: "{{ vm_name }}"
+        node: "{{ pve_node }}"
+
+        memory: "{{ vm_memory }}"
+        cores: "{{ vm_cores }}"
+        sockets: 1
+        cpu: "host"
+        machine: "q35"
+
+        bios: "ovmf"
+        scsihw: "virtio-scsi-single"
+        ostype: "l26"
+        agent: 1
+        tablet: false
+
+        state: present
+
+      register: vm_result
+
+    - name: Show VM creation result
+      debug:
+        msg: "Basic VM {{ vm_name }} (ID: {{ vm_id }}) created successfully"
+      when: vm_result.changed
+
+#    - name: Stop the VM
+#      community.general.proxmox_kvm:
+#        api_host: "{{ pve_host }}"
+#        api_user: "{{ pve_user }}"
+#        api_password: "{{ pve_password }}"
+#        validate_certs: false
+#        vmid: "{{ vm_id }}"
+#        node: "{{ pve_node }}"
+#        state: started
+
+    - name: VM Status
+      debug:
+        msg: "VM {{ vm_name }} is stopped. You can add disks and ISO manually via Proxmox web UI"

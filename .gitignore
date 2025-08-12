@@ -1,0 +1,16 @@
+# Sensitive files
+create-vm.yml
+group_vars/vault.yml
+*.log
+
+# Ansible temporary files
+*.retry
+.ansible/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,15 @@
+# Proxmox connection
+pve_host: "10.0.0.46"
+pve_user: "ansible@pve"
+pve_node: "proxmoxserver"
+
+# VM defaults
+default_memory: 2048
+default_cores: 2
+default_disk_size: 32
+default_network_bridge: "vmbr0"
+default_storage: "local-zfs"  # or whatever your storage is
+default_disk_format: "raw"
+default_machine_type: "q35"
+default_bios_type: "ovmf"
+default_scsihw: "virtio-scsi-single"
