@@ -1,7 +1,7 @@
 # Proxmox connection
-pve_host: "10.0.0.46"
-pve_user: "ansible@pve"
-pve_node: "proxmoxserver"
+pve_host: "YOUR IP HERE"
+pve_user: "YOUR PROXMOX USER HERE"
+pve_node: "YOUR PROXMOX NODE HERE"
 
 # VM defaults
 default_memory: 2048
